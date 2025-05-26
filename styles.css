@@ -39,12 +39,6 @@ body {
     min-height: 100vh;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, #0b626a, #0b626a);
-    color: var(--white);
-    box-shadow: var(--shadow);
-}
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -177,7 +171,7 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, #0b626a, #0b626a);
     color: var(--white);
     box-shadow: var(--shadow);
 }
