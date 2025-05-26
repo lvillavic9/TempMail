@@ -6,9 +6,9 @@
 }
 
 :root {
-    --primary-color: #667eea;
-    --primary-dark: #5a6fd8;
-    --secondary-color: #764ba2;
+    --primary-color: #0b626a;
+    --primary-dark: #0b626a;
+    --secondary-color: #0b626a;
     --success-color: #10b981;
     --danger-color: #ef4444;
     --warning-color: #f59e0b;
@@ -30,12 +30,19 @@
 }
 
 /* Base Styles */
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
     color: var(--gray-800);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0b626a 0%, #0b626a 100%);
     min-height: 100vh;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0b626a, #0b626a);
+    color: var(--white);
+    box-shadow: var(--shadow);
 }
 
 .container {
