@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TempMail Pro - Correos Temporales</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <i class="fas fa-envelope-open-text"></i>
+                    TempMail Pro
+                </h1>
+                <p class="subtitle">Correos temporales seguros y privados</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Email Generator Section -->
+            <section class="email-generator">
+                <div class="generator-card">
+                    <h2>Generar Correo Temporal</h2>
+                    <div class="input-group">
+                        <label for="tagInput">Ingresa tu alias personalizado:</label>
+                        <div class="input-container">
+                            <input 
+                                type="text" 
+                                id="tagInput" 
+                                placeholder="mi-alias" 
+                                maxlength="30"
+                                autocomplete="off"
+                            >
+                            <button id="generateBtn" class="btn-primary">
+                                <i class="fas fa-magic"></i>
+                                Generar
+                            </button>
+                        </div>
+                        <div class="input-help">
+                            Solo letras, números, guiones y puntos. Máximo 30 caracteres.
+                        </div>
+                        <div id="tagError" class="error-message"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Generated Email Section -->
+            <section id="emailSection" class="email-section hidden">
+                <div class="email-card">
+                    <h3>Tu correo temporal está listo</h3>
+                    <div class="email-display">
+                        <div class="email-address">
+                            <i class="fas fa-at"></i>
+                            <span id="generatedEmail"></span>
+                        </div>
+                        <button id="copyBtn" class="btn-copy" title="Copiar al portapapeles">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="email-status">
+                        <div class="status-indicator">
+                            <div id="statusDot" class="status-dot active"></div>
+                            <span id="statusText">Activo - Esperando correos...</span>
+                        </div>
+                        <div class="refresh-controls">
+                            <button id="refreshBtn" class="btn-secondary">
+                                <i class="fas fa-sync"></i>
+                                Actualizar
+                            </button>
+                            <select id="refreshInterval" class="refresh-select">
+                                <option value="5000">5 segundos</option>
+                                <option value="10000" selected>10 segundos</option>
+                                <option value="30000">30 segundos</option>
+                                <option value="60000">1 minuto</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inbox Section -->
+            <section id="inboxSection" class="inbox-section hidden">
+                <div class="inbox-card">
+                    <div class="inbox-header">
+                        <h3>
+                            <i class="fas fa-inbox"></i>
+                            Bandeja de Entrada
+                        </h3>
+                        <div class="inbox-controls">
+                            <button id="deleteAllBtn" class="btn-danger">
+                                <i class="fas fa-trash"></i>
+                                Limpiar Todo
+                            </button>
+                        </div>
+                    </div>
+                    <div id="emailList" class="email-list">
+                        <div class="no-emails">
+                            <i class="fas fa-inbox"></i>
+                            <p>No hay correos recibidos aún</p>
+                            <small>Los nuevos mensajes aparecerán aquí automáticamente</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Email Detail Modal -->
+            <div id="emailModal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalSubject"></h3>
+                        <button id="closeModal" class="btn-close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="email-meta">
+                            <div class="meta-item">
+                                <strong>De:</strong>
+                                <span id="modalFrom"></span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Para:</strong>
+                                <span id="modalTo"></span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Fecha:</strong>
+                                <span id="modalDate"></span>
+                            </div>
+                        </div>
+                        <div class="email-content">
+                            <div id="modalContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 TempMail Pro - Desarrollado por @lvillavic9</p>
+        </footer>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Cargando...</p>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
