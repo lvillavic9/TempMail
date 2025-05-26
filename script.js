@@ -1,23 +1,21 @@
 /**
  * TempMail Pro - Correos Temporales
- * Versión fiel a la documentación oficial de TestMail
+ * Pedir siempre el alias al cargar/refrescar
+ * Fondo y botón principal #0b626a
  * Desarrollado por @lvillavic9
  */
 
 class TempMailApp {
     constructor() {
-        // Configuración de la API
         this.API_KEY = 'e769cbfe-db59-4af7-97d3-74703239d385';
         this.NAMESPACE = 'wjlcs';
         this.BASE_URL = 'https://api.testmail.app/api/json';
-        
-        // Estado de la aplicación
+
         this.currentTag = null;
         this.currentEmail = null;
         this.refreshInterval = null;
         this.emails = [];
-        
-        // Elementos del DOM
+
         this.elements = {
             tagInput: document.getElementById('tagInput'),
             generateBtn: document.getElementById('generateBtn'),
@@ -37,11 +35,11 @@ class TempMailApp {
             loadingOverlay: document.getElementById('loadingOverlay'),
             toastContainer: document.getElementById('toastContainer')
         };
-        
+
         this.initializeEventListeners();
-        this.loadFromStorage();
+        this.reset(); // Siempre pide el alias al cargar
     }
-    
+
     initializeEventListeners() {
         this.elements.generateBtn.addEventListener('click', () => this.generateEmail());
         this.elements.tagInput.addEventListener('keypress', (e) => {
@@ -60,7 +58,7 @@ class TempMailApp {
             if (e.key === 'Escape') this.closeModal();
         });
     }
-    
+
     validateTag() {
         const tag = this.elements.tagInput.value.trim();
         const regex = /^[a-zA-Z0-9._-]+$/;
@@ -80,7 +78,7 @@ class TempMailApp {
         }
         return true;
     }
-    
+
     async generateEmail() {
         const tag = this.elements.tagInput.value.trim();
         if (!this.validateTag()) {
@@ -96,7 +94,6 @@ class TempMailApp {
             this.elements.inboxSection.classList.remove('hidden');
             this.emails = [];
             this.renderEmails();
-            this.saveToStorage();
             this.startRefreshInterval();
             await this.fetchEmails();
             this.showToast('¡Email temporal generado exitosamente!', 'success');
@@ -106,7 +103,7 @@ class TempMailApp {
             this.showLoading(false);
         }
     }
-    
+
     async copyEmail() {
         if (!this.currentEmail) return;
         try {
@@ -121,7 +118,7 @@ class TempMailApp {
             this.fallbackCopyEmail();
         }
     }
-    
+
     fallbackCopyEmail() {
         const textArea = document.createElement('textarea');
         textArea.value = this.currentEmail;
@@ -139,18 +136,16 @@ class TempMailApp {
         }
         document.body.removeChild(textArea);
     }
-    
+
     async fetchEmails() {
         if (!this.currentTag) return;
         try {
             this.updateStatus('Buscando correos...', false);
-            // Endpoint fiel a la especificación oficial:
             const response = await fetch(
               `https://api.testmail.app/api/json?apikey=${this.API_KEY}&namespace=${this.NAMESPACE}&tag=${this.currentTag}`
             );
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data = await response.json();
-            // Mostrar TODOS los correos que retorna la API, sin filtrar
             this.emails = data.emails || [];
             this.renderEmails();
             if (this.emails.length) {
@@ -163,7 +158,7 @@ class TempMailApp {
             this.showToast('Error al buscar correos', 'error');
         }
     }
-    
+
     renderEmails() {
         if (this.emails.length === 0) {
             this.elements.emailList.innerHTML = `
@@ -186,7 +181,7 @@ class TempMailApp {
             </div>
         `).join('');
     }
-    
+
     openEmailModal(emailId) {
         const email = this.emails.find(e => e.id === emailId);
         if (!email) return;
@@ -212,18 +207,17 @@ class TempMailApp {
         this.elements.emailModal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
     }
-    
+
     closeModal() {
         this.elements.emailModal.classList.add('hidden');
         document.body.style.overflow = '';
     }
-    
+
     async deleteAllEmails() {
         if (!this.currentTag || this.emails.length === 0) return;
         if (!confirm('¿Estás seguro de que quieres eliminar todos los correos?')) return;
         this.showLoading(true);
         try {
-            // Eliminar según documentación oficial
             const response = await fetch(
                 `${this.BASE_URL}?apikey=${this.API_KEY}&namespace=${this.NAMESPACE}&tag=${this.currentTag}&action=delete`
             );
@@ -240,22 +234,21 @@ class TempMailApp {
             this.showLoading(false);
         }
     }
-    
+
     updateRefreshInterval() {
         const interval = parseInt(this.elements.refreshInterval.value);
         if (this.refreshInterval) clearInterval(this.refreshInterval);
         if (this.currentTag) {
             this.refreshInterval = setInterval(() => this.fetchEmails(), interval);
         }
-        this.saveToStorage();
     }
-    
+
     startRefreshInterval() {
         if (this.refreshInterval) clearInterval(this.refreshInterval);
         const interval = parseInt(this.elements.refreshInterval.value);
         this.refreshInterval = setInterval(() => this.fetchEmails(), interval);
     }
-    
+
     updateStatus(text, isActive) {
         this.elements.statusText.textContent = text;
         if (isActive) {
@@ -264,7 +257,7 @@ class TempMailApp {
             this.elements.statusDot.classList.remove('active');
         }
     }
-    
+
     showLoading(show) {
         if (show) {
             this.elements.loadingOverlay.classList.remove('hidden');
@@ -272,17 +265,17 @@ class TempMailApp {
             this.elements.loadingOverlay.classList.add('hidden');
         }
     }
-    
+
     showError(message) {
         this.elements.tagError.textContent = message;
         this.elements.tagInput.style.borderColor = 'var(--danger-color)';
     }
-    
+
     clearError() {
         this.elements.tagError.textContent = '';
         this.elements.tagInput.style.borderColor = '';
     }
-    
+
     showToast(message, type = 'info') {
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
@@ -302,7 +295,7 @@ class TempMailApp {
             }, 300);
         }, 4000);
     }
-    
+
     getEmailPreview(email) {
         let preview = '';
         if (email.text) {
@@ -318,7 +311,7 @@ class TempMailApp {
         }
         return this.escapeHtml(preview) || '<em>Sin contenido de vista previa</em>';
     }
-    
+
     formatDate(timestamp, detailed = false) {
         if (!timestamp) return 'Fecha desconocida';
         const date = new Date(timestamp * 1000);
@@ -350,7 +343,7 @@ class TempMailApp {
             });
         }
     }
-    
+
     escapeHtml(text) {
         if (!text) return '';
         const map = {
@@ -362,45 +355,8 @@ class TempMailApp {
         };
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
-    
-    saveToStorage() {
-        const state = {
-            currentTag: this.currentTag,
-            currentEmail: this.currentEmail,
-            refreshInterval: this.elements.refreshInterval.value,
-            timestamp: Date.now()
-        };
-        localStorage.setItem('tempmail_state', JSON.stringify(state));
-    }
-    
-    loadFromStorage() {
-        try {
-            const savedState = localStorage.getItem('tempmail_state');
-            if (!savedState) return;
-            const state = JSON.parse(savedState);
-            const maxAge = 24 * 60 * 60 * 1000;
-            if (Date.now() - state.timestamp > maxAge) {
-                localStorage.removeItem('tempmail_state');
-                return;
-            }
-            if (state.currentTag && state.currentEmail) {
-                this.currentTag = state.currentTag;
-                this.currentEmail = state.currentEmail;
-                this.elements.tagInput.value = state.currentTag;
-                this.elements.generatedEmail.textContent = state.currentEmail;
-                this.elements.emailSection.classList.remove('hidden');
-                this.elements.inboxSection.classList.remove('hidden');
-                if (state.refreshInterval) {
-                    this.elements.refreshInterval.value = state.refreshInterval;
-                }
-                this.startRefreshInterval();
-                this.fetchEmails();
-            }
-        } catch (error) {
-            localStorage.removeItem('tempmail_state');
-        }
-    }
-    
+
+    // ¡Ahora reset no usa localStorage!
     reset() {
         if (this.refreshInterval) {
             clearInterval(this.refreshInterval);
@@ -414,15 +370,15 @@ class TempMailApp {
         this.elements.inboxSection.classList.add('hidden');
         this.closeModal();
         this.clearError();
-        localStorage.removeItem('tempmail_state');
     }
 }
 
-// Inicializar la aplicación cuando el DOM esté listo
 let tempMailApp;
 document.addEventListener('DOMContentLoaded', () => {
     tempMailApp = new TempMailApp();
     window.tempMailApp = tempMailApp;
+    // Siempre pide alias al cargar
+    tempMailApp.reset();
 });
 window.addEventListener('beforeunload', () => {
     if (tempMailApp && tempMailApp.refreshInterval) {
