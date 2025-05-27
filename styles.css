@@ -93,11 +93,6 @@ body {
     background: var(--white);
     font-size: 0.875rem;
 }
-.refresh-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
 
 .container {
     max-width: 1200px;
