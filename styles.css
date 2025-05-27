@@ -73,9 +73,9 @@ body {
 
 .email-actions {
     display: flex;
-    gap: 12px;
     align-items: center;
-    margin-top: 10px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 .inbox-controls {
     display: flex;
