@@ -97,6 +97,11 @@ class TempMailApp {
             this.startRefreshInterval();
             await this.fetchEmails();
             this.showToast('¡Email temporal generado exitosamente!', 'success');
+
+        setTimeout(() => {
+            this.elements.emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+            
         } catch (error) {
             this.showToast('Error al generar el email temporal', 'error');
         } finally {
