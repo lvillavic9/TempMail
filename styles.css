@@ -29,8 +29,6 @@
     --radius-lg: 12px;
 }
 
-/* Base Styles */
-
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
@@ -38,6 +36,55 @@ body {
     background: linear-gradient(135deg, #0b626a 0%, #0b626a 100%);
     min-height: 100vh;
 }
+
+.input-important {
+    font-size: 0.93rem;
+    color: var(--warning-color);
+    background: #fffbe6;
+    border-left: 4px solid var(--warning-color);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    margin-top: -5px;
+    margin-bottom: 2px;
+}
+.input-important strong {
+    color: var(--danger-color);
+}
+
+.input-container {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.input-container input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--white);
+}
+
+.input-container button {
+    white-space: nowrap;
+}
+
+.email-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 10px;
+}
+.inbox-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* ...resto igual... */
 
 .container {
     max-width: 1200px;
@@ -48,7 +95,6 @@ body {
     flex-direction: column;
 }
 
-/* Header */
 .header {
     text-align: center;
     margin-bottom: 40px;
@@ -78,7 +124,6 @@ body {
     font-weight: 400;
 }
 
-/* Main Content */
 .main-content {
     flex: 1;
     display: flex;
@@ -86,7 +131,6 @@ body {
     gap: 30px;
 }
 
-/* Cards */
 .generator-card,
 .email-card,
 .inbox-card {
@@ -105,7 +149,6 @@ body {
     font-weight: 600;
 }
 
-/* Input Group */
 .input-group {
     display: flex;
     flex-direction: column;
@@ -115,28 +158,6 @@ body {
 .input-group label {
     font-weight: 500;
     color: var(--gray-700);
-}
-
-.input-container {
-    display: flex;
-    gap: 12px;
-    align-items: stretch;
-}
-
-.input-container input {
-    flex: 1;
-    padding: 12px 16px;
-    border: 2px solid var(--gray-300);
-    border-radius: var(--radius);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: var(--white);
-}
-
-.input-container input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .input-help {
@@ -151,7 +172,6 @@ body {
     min-height: 20px;
 }
 
-/* Buttons */
 .btn-primary,
 .btn-secondary,
 .btn-copy,
@@ -222,7 +242,6 @@ body {
     justify-content: center;
 }
 
-/* Email Display */
 .email-display {
     display: flex;
     align-items: center;
@@ -250,7 +269,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* Status */
 .email-status {
     display: flex;
     justify-content: space-between;
@@ -277,21 +295,6 @@ body {
     background: var(--success-color);
 }
 
-.refresh-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.refresh-select {
-    padding: 8px 12px;
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius);
-    background: var(--white);
-    font-size: 0.875rem;
-}
-
-/* Inbox */
 .inbox-header {
     display: flex;
     justify-content: space-between;
@@ -343,7 +346,7 @@ body {
 
 .email-item.unread {
     border-left: 4px solid var(--primary-color);
-    background: linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%);
+    background: linear-gradient(90deg, rgba(11, 98, 106, 0.07) 0%, transparent 100%);
 }
 
 .email-header {
@@ -382,7 +385,6 @@ body {
     overflow: hidden;
 }
 
-/* Modal */
 .modal {
     position: fixed;
     top: 0;
@@ -463,7 +465,6 @@ body {
     min-height: 400px;
 }
 
-/* Loading */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -487,7 +488,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* Toast Notifications */
 .toast-container {
     position: fixed;
     top: 20px;
@@ -519,12 +519,10 @@ body {
     border-left-color: var(--warning-color);
 }
 
-/* Utility Classes */
 .hidden {
     display: none !important;
 }
 
-/* Animations */
 @keyframes pulse {
     0%, 100% {
         opacity: 1;
@@ -545,7 +543,6 @@ body {
     }
 }
 
-/* Footer */
 .footer {
     text-align: center;
     margin-top: 40px;
@@ -555,67 +552,54 @@ body {
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
     }
-    
     .logo {
         font-size: 2rem;
     }
-    
     .generator-card,
     .email-card,
     .inbox-card {
         padding: 20px;
     }
-    
     .input-container {
         flex-direction: column;
     }
-    
     .email-display {
         flex-direction: column;
         text-align: center;
     }
-    
     .email-status {
         flex-direction: column;
         align-items: stretch;
     }
-    
     .inbox-header {
         flex-direction: column;
         align-items: stretch;
     }
-    
     .email-header {
         flex-direction: column;
         gap: 8px;
     }
-    
     .modal-content {
         margin: 10px;
         max-height: calc(100vh - 20px);
     }
-    
     .modal-header,
     .modal-body {
         padding: 20px;
     }
-    
     .meta-item {
         flex-direction: column;
         gap: 5px;
     }
-    
     .toast-container {
         left: 10px;
         right: 10px;
         top: 10px;
     }
-    
     .toast {
         max-width: none;
     }
@@ -627,13 +611,11 @@ body {
         flex-direction: column;
         gap: 10px;
     }
-    
     .generator-card,
     .email-card,
     .inbox-card {
         padding: 15px;
     }
-    
     .btn-primary,
     .btn-secondary,
     .btn-danger {
