@@ -51,9 +51,9 @@ class TempMailApp {
         this.elements.copyBtn.addEventListener('click', () => this.copyEmail());
         this.elements.refreshBtn.addEventListener('click', () => this.fetchEmails());
         this.elements.refreshInterval.addEventListener('change', () => this.updateRefreshInterval());
-        // Nuevo: Botón Aleatorio
+        // Botón Aleatorio
         this.elements.randomBtn.addEventListener('click', () => this.generateRandomAlias());
-        // Nuevo: Botón Nuevo y Eliminar (los dos resetean la app)
+        // Botón Nuevo y Eliminar (ambos resetean la app)
         this.elements.newBtn.addEventListener('click', () => this.reset());
         this.elements.deleteBtn.addEventListener('click', () => this.reset());
         this.elements.closeModal.addEventListener('click', () => this.closeModal());
@@ -85,9 +85,7 @@ class TempMailApp {
         return true;
     }
 
-    // NUEVO: Generador de alias aleatorios
     generateRandomAlias() {
-        // Ejemplo: tempXY1Z9 o user-ab12
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let alias = '';
         for (let i = 0; i < 8; i++) {
@@ -116,18 +114,17 @@ class TempMailApp {
             await this.fetchEmails();
             this.showToast('¡Email temporal generado exitosamente!', 'success');
 
-            // Forzar scroll automático en cualquier dispositivo
+            // Solo hacer scroll automático si el ancho de pantalla es mayor a 768px (escritorio)
             setTimeout(() => {
-                const emailSection = this.elements.emailSection;
-                if (typeof emailSection.scrollIntoView === "function") {
-                    emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
-                }
-                // Refuerzo para desktop
-                const rect = emailSection.getBoundingClientRect();
-                window.scrollTo({
-                    top: window.scrollY + rect.top - 24,
-                    behavior: "smooth"
-                });
+                    const emailSection = this.elements.emailSection;
+                    if (typeof emailSection.scrollIntoView === "function") {
+                        emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                    const rect = emailSection.getBoundingClientRect();
+                    window.scrollTo({
+                        top: window.scrollY + rect.top - 24,
+                        behavior: "smooth"
+                    });
             }, 150);
 
         } catch (error) {
@@ -380,7 +377,6 @@ class TempMailApp {
         this.elements.inboxSection.classList.add('hidden');
         this.closeModal();
         this.clearError();
-        // Forzar scroll al principio al resetear
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 }
