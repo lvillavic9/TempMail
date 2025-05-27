@@ -88,19 +88,15 @@ body {
 /* Select moderno para segundos/minutos */
 .refresh-select {
     padding: 8px 12px;
-    border: 1.5px solid var(--gray-300);
+    border: 1px solid var(--gray-300);
     border-radius: var(--radius);
-    font-size: 0.95rem;
+    font-size: 1rem;
     background: var(--white);
     color: var(--gray-800);
     min-width: 110px;
     font-family: inherit;
     transition: border-color 0.2s;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
-
 .refresh-select:focus {
     outline: none;
     border-color: var(--primary-color);
