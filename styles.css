@@ -37,63 +37,6 @@ body {
     min-height: 100vh;
 }
 
-.input-important {
-    font-size: 0.93rem;
-    color: var(--warning-color);
-    background: #fffbe6;
-    border-left: 4px solid var(--warning-color);
-    padding: 10px 14px;
-    border-radius: var(--radius);
-    margin-top: -5px;
-    margin-bottom: 2px;
-}
-.input-important strong {
-    color: var(--danger-color);
-}
-
-.input-container {
-    display: flex;
-    gap: 12px;
-    align-items: stretch;
-}
-
-.input-container input {
-    flex: 1;
-    padding: 12px 16px;
-    border: 2px solid var(--gray-300);
-    border-radius: var(--radius);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: var(--white);
-}
-
-.input-container button {
-    white-space: nowrap;
-}
-
-/* Botones horizontales y responsivos */
-.email-actions, .inbox-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 0;
-}
-@media (min-width: 769px) {
-    .email-actions, .inbox-controls {
-        flex-wrap: nowrap;
-    }
-}
-
-/* Select moderno para segundos/minutos */
-.refresh-select {
-    padding: 8px 12px;
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius);
-    background: var(--white);
-    font-size: 0.875rem;
-}
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -168,9 +111,45 @@ body {
     color: var(--gray-700);
 }
 
+.input-container {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.input-container input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--white);
+}
+
+.input-container input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(11, 98, 106, 0.12);
+}
+
 .input-help {
     font-size: 0.875rem;
     color: var(--gray-500);
+}
+
+.input-important {
+    font-size: 0.93rem;
+    color: var(--warning-color);
+    background: #fffbe6;
+    border-left: 4px solid var(--warning-color);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    margin-top: -5px;
+    margin-bottom: 2px;
+}
+.input-important strong {
+    color: var(--danger-color);
 }
 
 .error-message {
@@ -301,6 +280,31 @@ body {
 
 .status-dot.active {
     background: var(--success-color);
+}
+
+.refresh-controls,
+.inbox-controls,
+.email-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 0;
+}
+@media (min-width: 769px) {
+    .refresh-controls,
+    .inbox-controls,
+    .email-actions {
+        flex-wrap: nowrap;
+    }
+}
+
+.refresh-select {
+    padding: 8px 12px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    background: var(--white);
+    font-size: 0.875rem;
 }
 
 .inbox-header {
