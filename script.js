@@ -99,8 +99,19 @@ class TempMailApp {
             this.showToast('¡Email temporal generado exitosamente!', 'success');
 
         setTimeout(() => {
-            this.elements.emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 150);
+    // 1. Forzar scroll en todo el documento (html/body)
+    const emailSection = this.elements.emailSection;
+    // Intenta scrollIntoView en el documento principal
+    if (typeof emailSection.scrollIntoView === "function") {
+        emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    // 2. Como refuerzo, para navegadores de escritorio, usar window.scrollTo
+    const rect = emailSection.getBoundingClientRect();
+    window.scrollTo({
+        top: window.scrollY + rect.top - 24, // 24px de margen visual arriba
+        behavior: "smooth"
+    });
+}, 150);
             
         } catch (error) {
             this.showToast('Error al generar el email temporal', 'error');
