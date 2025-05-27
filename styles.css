@@ -71,17 +71,39 @@ body {
     white-space: nowrap;
 }
 
-.email-actions {
+/* Botones horizontales y responsivos */
+.email-actions, .inbox-controls {
     display: flex;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
+    margin-top: 0;
 }
-.inbox-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+@media (min-width: 769px) {
+    .email-actions, .inbox-controls {
+        flex-wrap: nowrap;
+    }
+}
+
+/* Select moderno para segundos/minutos */
+.refresh-select {
+    padding: 10px 34px 10px 12px;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    background: var(--gray-100) url("data:image/svg+xml;charset=UTF-8,<svg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M4 7L9 12L14 7' stroke='%230b626a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 0.9em center/1.1em 1.1em;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    min-width: 125px;
+    font-family: inherit;
+    color: var(--gray-800);
+}
+.refresh-select:focus {
+    outline: none;
+    border-color: var(--primary-dark);
+    background-color: var(--gray-50);
 }
 
 /* ...resto igual... */
