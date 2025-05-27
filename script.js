@@ -19,17 +19,19 @@ class TempMailApp {
         this.elements = {
             tagInput: document.getElementById('tagInput'),
             generateBtn: document.getElementById('generateBtn'),
+            randomBtn: document.getElementById('randomBtn'),
             tagError: document.getElementById('tagError'),
             emailSection: document.getElementById('emailSection'),
             generatedEmail: document.getElementById('generatedEmail'),
             copyBtn: document.getElementById('copyBtn'),
             refreshBtn: document.getElementById('refreshBtn'),
             refreshInterval: document.getElementById('refreshInterval'),
+            newBtn: document.getElementById('newBtn'),
+            deleteBtn: document.getElementById('deleteBtn'),
             statusDot: document.getElementById('statusDot'),
             statusText: document.getElementById('statusText'),
             inboxSection: document.getElementById('inboxSection'),
             emailList: document.getElementById('emailList'),
-            deleteAllBtn: document.getElementById('deleteAllBtn'),
             emailModal: document.getElementById('emailModal'),
             closeModal: document.getElementById('closeModal'),
             loadingOverlay: document.getElementById('loadingOverlay'),
@@ -37,7 +39,7 @@ class TempMailApp {
         };
 
         this.initializeEventListeners();
-        this.reset(); // Siempre pide el alias al cargar
+        this.reset();
     }
 
     initializeEventListeners() {
@@ -49,14 +51,11 @@ class TempMailApp {
         this.elements.copyBtn.addEventListener('click', () => this.copyEmail());
         this.elements.refreshBtn.addEventListener('click', () => this.fetchEmails());
         this.elements.refreshInterval.addEventListener('change', () => this.updateRefreshInterval());
-
         // Nuevo: Botón Aleatorio
         this.elements.randomBtn.addEventListener('click', () => this.generateRandomAlias());
-
         // Nuevo: Botón Nuevo y Eliminar (los dos resetean la app)
         this.elements.newBtn.addEventListener('click', () => this.reset());
         this.elements.deleteBtn.addEventListener('click', () => this.reset());
-
         this.elements.closeModal.addEventListener('click', () => this.closeModal());
         this.elements.emailModal.addEventListener('click', (e) => {
             if (e.target === this.elements.emailModal) this.closeModal();
@@ -86,6 +85,18 @@ class TempMailApp {
         return true;
     }
 
+    // NUEVO: Generador de alias aleatorios
+    generateRandomAlias() {
+        // Ejemplo: tempXY1Z9 o user-ab12
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let alias = '';
+        for (let i = 0; i < 8; i++) {
+            alias += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        this.elements.tagInput.value = alias;
+        this.generateEmail();
+    }
+
     async generateEmail() {
         const tag = this.elements.tagInput.value.trim();
         if (!this.validateTag()) {
@@ -105,21 +116,20 @@ class TempMailApp {
             await this.fetchEmails();
             this.showToast('¡Email temporal generado exitosamente!', 'success');
 
-        setTimeout(() => {
-    // 1. Forzar scroll en todo el documento (html/body)
-    const emailSection = this.elements.emailSection;
-    // Intenta scrollIntoView en el documento principal
-    if (typeof emailSection.scrollIntoView === "function") {
-        emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-    // 2. Como refuerzo, para navegadores de escritorio, usar window.scrollTo
-    const rect = emailSection.getBoundingClientRect();
-    window.scrollTo({
-        top: window.scrollY + rect.top - 24, // 24px de margen visual arriba
-        behavior: "smooth"
-    });
-}, 150);
-            
+            // Forzar scroll automático en cualquier dispositivo
+            setTimeout(() => {
+                const emailSection = this.elements.emailSection;
+                if (typeof emailSection.scrollIntoView === "function") {
+                    emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+                // Refuerzo para desktop
+                const rect = emailSection.getBoundingClientRect();
+                window.scrollTo({
+                    top: window.scrollY + rect.top - 24,
+                    behavior: "smooth"
+                });
+            }, 150);
+
         } catch (error) {
             this.showToast('Error al generar el email temporal', 'error');
         } finally {
@@ -234,28 +244,6 @@ class TempMailApp {
     closeModal() {
         this.elements.emailModal.classList.add('hidden');
         document.body.style.overflow = '';
-    }
-
-    async deleteAllEmails() {
-        if (!this.currentTag || this.emails.length === 0) return;
-        if (!confirm('¿Estás seguro de que quieres eliminar todos los correos?')) return;
-        this.showLoading(true);
-        try {
-            const response = await fetch(
-                `${this.BASE_URL}?apikey=${this.API_KEY}&namespace=${this.NAMESPACE}&tag=${this.currentTag}&action=delete`
-            );
-            if (response.ok) {
-                this.emails = [];
-                this.renderEmails();
-                this.showToast('Todos los correos han sido eliminados', 'success');
-            } else {
-                throw new Error('Error al eliminar correos');
-            }
-        } catch (error) {
-            this.showToast('Error al eliminar los correos', 'error');
-        } finally {
-            this.showLoading(false);
-        }
     }
 
     updateRefreshInterval() {
@@ -379,7 +367,6 @@ class TempMailApp {
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
-    // ¡Ahora reset no usa localStorage!
     reset() {
         if (this.refreshInterval) {
             clearInterval(this.refreshInterval);
@@ -393,6 +380,8 @@ class TempMailApp {
         this.elements.inboxSection.classList.add('hidden');
         this.closeModal();
         this.clearError();
+        // Forzar scroll al principio al resetear
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 }
 
@@ -400,7 +389,6 @@ let tempMailApp;
 document.addEventListener('DOMContentLoaded', () => {
     tempMailApp = new TempMailApp();
     window.tempMailApp = tempMailApp;
-    // Siempre pide alias al cargar
     tempMailApp.reset();
 });
 window.addEventListener('beforeunload', () => {
