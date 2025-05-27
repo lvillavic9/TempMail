@@ -93,10 +93,10 @@ body {
     background: var(--white);
     font-size: 0.875rem;
 }
-.refresh-select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    background-color: var(--gray-100);
+.refresh-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .container {
