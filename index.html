@@ -81,17 +81,15 @@
                             <div id="statusDot" class="status-dot active"></div>
                             <span id="statusText">Activo - Esperando correos...</span>
                         </div>
-                        <div class="refresh-controls">
-                            <button id="refreshBtn" class="btn-secondary">
-                                <i class="fas fa-sync"></i>
-                                Actualizar
+                        <div class="email-actions">
+                            <button id="newBtn" class="btn-primary" title="Nuevo alias">
+                                <i class="fas fa-plus"></i>
+                                Nuevo
                             </button>
-                            <select id="refreshInterval" class="refresh-select">
-                                <option value="5000">5 segundos</option>
-                                <option value="10000" selected>10 segundos</option>
-                                <option value="30000">30 segundos</option>
-                                <option value="60000">1 minuto</option>
-                            </select>
+                            <button id="deleteBtn" class="btn-danger" title="Eliminar y generar nuevo alias">
+                                <i class="fas fa-trash"></i>
+                                Eliminar
+                            </button>                       
                         </div>
                     </div>
                 </div>
