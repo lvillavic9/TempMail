@@ -7,6 +7,11 @@
 
 class TempMailApp {
     constructor() {
+        // Forzar restauración manual del scroll al recargar
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
         this.API_KEY = 'e769cbfe-db59-4af7-97d3-74703239d385';
         this.NAMESPACE = 'wjlcs';
         this.BASE_URL = 'https://api.testmail.app/api/json';
@@ -51,9 +56,7 @@ class TempMailApp {
         this.elements.copyBtn.addEventListener('click', () => this.copyEmail());
         this.elements.refreshBtn.addEventListener('click', () => this.fetchEmails());
         this.elements.refreshInterval.addEventListener('change', () => this.updateRefreshInterval());
-        // Botón Aleatorio
         this.elements.randomBtn.addEventListener('click', () => this.generateRandomAlias());
-        // Botón Nuevo y Eliminar (ambos resetean la app)
         this.elements.newBtn.addEventListener('click', () => this.reset());
         this.elements.deleteBtn.addEventListener('click', () => this.reset());
         this.elements.closeModal.addEventListener('click', () => this.closeModal());
@@ -88,7 +91,7 @@ class TempMailApp {
     generateRandomAlias() {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let alias = '';
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 5; i++) {
             alias += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         this.elements.tagInput.value = alias;
@@ -114,17 +117,17 @@ class TempMailApp {
             await this.fetchEmails();
             this.showToast('¡Email temporal generado exitosamente!', 'success');
 
-            // Solo hacer scroll automático si el ancho de pantalla es mayor a 768px (escritorio)
+            // Scroll automático en todos los dispositivos
             setTimeout(() => {
-                    const emailSection = this.elements.emailSection;
-                    if (typeof emailSection.scrollIntoView === "function") {
-                        emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
-                    }
-                    const rect = emailSection.getBoundingClientRect();
-                    window.scrollTo({
-                        top: window.scrollY + rect.top - 24,
-                        behavior: "smooth"
-                    });
+                const emailSection = this.elements.emailSection;
+                if (typeof emailSection.scrollIntoView === "function") {
+                    emailSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+                const rect = emailSection.getBoundingClientRect();
+                window.scrollTo({
+                    top: window.scrollY + rect.top - 24,
+                    behavior: "smooth"
+                });
             }, 150);
 
         } catch (error) {
@@ -377,7 +380,8 @@ class TempMailApp {
         this.elements.inboxSection.classList.add('hidden');
         this.closeModal();
         this.clearError();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        // Forzar scroll instantáneo arriba, nunca smooth
+        window.scrollTo({ top: 0, behavior: "auto" });
     }
 }
 
