@@ -89,7 +89,7 @@ class TempMailApp {
     }
 
     generateRandomAlias() {
-        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const chars = 'abcdefghijklmnopqrstuvwxyz';
         let alias = '';
         for (let i = 0; i < 5; i++) {
             alias += chars.charAt(Math.floor(Math.random() * chars.length));
