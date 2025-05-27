@@ -104,10 +104,16 @@
                             Bandeja de Entrada
                         </h3>
                         <div class="inbox-controls">
-                            <button id="deleteAllBtn" class="btn-danger">
-                                <i class="fas fa-trash"></i>
-                                Limpiar Todo
+                            <button id="refreshBtn" class="btn-secondary">
+                                <i class="fas fa-sync"></i>
+                                Actualizar
                             </button>
+                            <select id="refreshInterval" class="refresh-select">
+                                <option value="5000">5 segundos</option>
+                                <option value="10000" selected>10 segundos</option>
+                                <option value="30000">30 segundos</option>
+                                <option value="60000">1 minuto</option>
+                            </select>
                         </div>
                     </div>
                     <div id="emailList" class="email-list">
