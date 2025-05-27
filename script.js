@@ -49,7 +49,14 @@ class TempMailApp {
         this.elements.copyBtn.addEventListener('click', () => this.copyEmail());
         this.elements.refreshBtn.addEventListener('click', () => this.fetchEmails());
         this.elements.refreshInterval.addEventListener('change', () => this.updateRefreshInterval());
-        this.elements.deleteAllBtn.addEventListener('click', () => this.deleteAllEmails());
+
+        // Nuevo: Botón Aleatorio
+        this.elements.randomBtn.addEventListener('click', () => this.generateRandomAlias());
+
+        // Nuevo: Botón Nuevo y Eliminar (los dos resetean la app)
+        this.elements.newBtn.addEventListener('click', () => this.reset());
+        this.elements.deleteBtn.addEventListener('click', () => this.reset());
+
         this.elements.closeModal.addEventListener('click', () => this.closeModal());
         this.elements.emailModal.addEventListener('click', (e) => {
             if (e.target === this.elements.emailModal) this.closeModal();
