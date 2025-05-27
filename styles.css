@@ -282,7 +282,12 @@ body {
     background: var(--success-color);
 }
 
-.refresh-controls,
+.refresh-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .inbox-controls,
 .email-actions {
     display: flex;
